@@ -13,9 +13,10 @@ send_telegram_message() {
 }
 
 get_server_info() {
-    local ip=$(curl -s ifconfig.me)
+    local ipv4=$(curl -s https://api.ipify.org?format=text)
+    local ipv6=$(curl -s https://api64.ipify.org?format=text)
     local hostname=$(hostname)
-    echo "IP Address: $ip, Hostname: $hostname"
+    echo "IPv4 Address: $ipv4, IPv6 Address: $ipv6, Hostname: $hostname"
 }
 
 generate_random_string() {
